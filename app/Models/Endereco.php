@@ -9,6 +9,10 @@ class Endereco extends Model
 {
     use HasFactory;
 
+    protected $table = 'endereco';
+    protected $fillable = ['cliente_id', 'cep', 'cidade', 'rua', 'numero', 'bairro', 'uf'];
+
+
     public function cliente()
     {
         return $this->belongsTo(Cliente::class);

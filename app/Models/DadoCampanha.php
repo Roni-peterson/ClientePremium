@@ -8,6 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class DadoCampanha extends Model
 {
     use HasFactory;
+    protected $table = 'dadoCampanha';
+    protected $fillable = [
+        'cliente_id',
+        'perfil',
+        'detalhe_tentante',
+        'detalhe_gestante',
+        'mes_gestacao',
+        'sexo_bebe',
+        'nome_bebe',
+        'detalhe_mamae',
+        'faixa_etaria_bebe'
+    ];
 
     public function cliente()
     {

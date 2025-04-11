@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::table('clientes', function (Blueprint $table) {
             $table->string('cpf')->unique()->after('id');
-            $table->string('nome');
-            $table->string('email');
-            $table->string('telefone');
+            $table->string('nome')->nullable();
+            $table->string('email')->nullable();
+            $table->string('telefone')->nullable();
             $table->date('data_nascimento')->nullable();
             $table->enum('genero', ['masculino', 'feminino', 'outros', 'não informar'])->nullable();
-            $table->timestamps();
+            // ❌ NÃO adicione novamente timestamps aqui
         });
     }
 
@@ -27,6 +27,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('clientes');
+        Schema::table('clientes', function (Blueprint $table) {
+            $table->dropColumn(['cpf', 'nome', 'email', 'telefone', 'data_nascimento', 'genero']);
+        });
     }
 };

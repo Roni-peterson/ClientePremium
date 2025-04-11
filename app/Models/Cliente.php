@@ -18,4 +18,13 @@ class Cliente extends Model
     {
         return $this->hasOne(DadoCampanha::class);
     }
+
+    protected $fillable = [
+        'cpf',
+        'nome',
+        'email',
+        'telefone',
+        'data_nascimento',
+        'genero',
+    ];
 }
