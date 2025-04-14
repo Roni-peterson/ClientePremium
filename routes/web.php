@@ -16,4 +16,5 @@ use App\Http\Controllers\ClienteController;
 
 Route::get('/', [ClienteController::class, 'index']);
 Route::post('/enviar', [ClienteController::class, 'store']);
-Route::get('/painel', [ClienteController::class, 'painel']);
+Route::get('/painel-mamaepremiada', [ClienteController::class, 'painel']);
+Route::get('/exportar-clientes', [ClienteController::class, 'exportarCsv'])->name('clientes.exportar');

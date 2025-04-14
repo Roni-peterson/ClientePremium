@@ -2,9 +2,13 @@
 <html lang="pt-BR">
 
 <head>
+    <script>
+        setTimeout(function() {
+            window.location.reload();
+        }, 5000); // 5000 milissegundos = 5 segundos
+    </script>
     <meta charset="UTF-8">
     <title>Painel de Clientes</title>
-    <meta http-equiv="refresh" content="5">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -63,7 +67,13 @@
         <!-- Tabela -->
         <div class="py-12">
             <div class="text-white w-full max-w-7xl px-6 mx-auto">
+                <div class="flex justify-end mb-4">
+                    <a href="{{ route('clientes.exportar') }}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                        Exportar Clientes
+                    </a>
+                </div>
                 <div class="bg-[#1e3a8a] dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+
                     <div class="p-6 text-gray-900 dark:text-white">
                         <div class="flex flex-col gap-4">
                             <div class="w-full h-[400px] mx-auto">

@@ -53,9 +53,7 @@
 </head>
 
 <body class="bg-gray-100 text-gray-900">
-
     <div class="w-full">
-
         <!-- Seção 1 -->
         <section
             class="min-h-screen bg-cover bg-center relative flex flex-col justify-center items-center text-center px-4"
@@ -126,7 +124,7 @@
             <!-- Metade direita da tela (formulário) -->
             <div class="w-full lg:w-1/2 flex items-center justify-center bg-white/0 relative">
                 <div class="w-full max-w-xl bg-white/90 p-4 sm:p-6 md:p-8 rounded-xl">
-                    <form method="POST" action="/enviar"  id="formularioCompleto" class="space-y-2">
+                    <form method="POST" action="/enviar" id="formularioCompleto" class="space-y-2">
                         @csrf
                         <div class="flex items-center justify-center h-full md:hidden">
                             <img src="{{ asset('images/logo_form_mobile.png') }}" alt="Logo" class="w-full max-w-[6rem] h-auto">
@@ -148,7 +146,7 @@
                                 <div class="flex-1">
                                     <label for="data_nascimento" class="block text-xs font-medium text-gray-700">Data de nascimento</label>
                                     <input name="data_nascimento" id="data_nascimento" type="date"
-                                        class="w-full border border-gray-300 rounded px-3 py-3 sm:py-2 sm:text-sm" required>
+                                        class="w-full border border-gray-300 rounded px-3 py-3 sm:py-2 sm:text-sm" max="2010-01-01" required>
                                     <p id="erro-data_nascimento" class="text-red-600 text-sm hidden mt-1"></p>
                                 </div>
                                 <!-- Campo Gênero -->
@@ -230,7 +228,22 @@
                                 <option value="Tentante">Tentante</option>
                                 <option value="Gestante">Gestante</option>
                                 <option value="Mamãe">Mamãe</option>
+                                <option value="Outros">Outros</option>
                             </select>
+
+                            <!-- OUTROS -->
+                            <div id="opcaoOutros" class="hidden mb-4">
+                                <label class="block mb-1">Qual seu perfil?</label>
+                                <select name="detalhe_outros" class="w-full border border-gray-300 rounded px-3 py-3 sm:py-2">
+                                    <option value="">Selecione uma opção</option>
+                                    <option value="Papai">Papai</option>
+                                    <option value="Titio">Titio</option>
+                                    <option value="Titia">Titia</option>
+                                    <option value="Vovó">Vovó</option>
+                                    <option value="Vovô">Vovô</option>
+                                    <option value="Outros">Outros</option>
+                                </select>
+                            </div>
 
                             <!-- TENTANTE -->
                             <div id="opcaoTentante" class="hidden mb-4">
@@ -339,346 +352,284 @@
                             </div>
                         </div>
                     </form>
-                </div>
-
+                </div>F
             </div>
+        </section>
     </div>
-    </section>
-    </div>
 
-    <!-- SCRIPTS -->
-    <script>
-        // Validação de CPF
-        function validarCPF(cpf) {
-            cpf = cpf.replace(/[^\d]+/g, '');
-            if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
-            let soma = 0;
-            for (let i = 0; i < 9; i++) soma += parseInt(cpf.charAt(i)) * (10 - i);
-            let resto = 11 - (soma % 11);
-            if (resto >= 10) resto = 0;
-            if (resto !== parseInt(cpf.charAt(9))) return false;
-            soma = 0;
-            for (let i = 0; i < 10; i++) soma += parseInt(cpf.charAt(i)) * (11 - i);
-            resto = 11 - (soma % 11);
-            if (resto >= 10) resto = 0;
-            return resto === parseInt(cpf.charAt(10));
+<!-- SCRIPTS -->
+<script>
+    // ------------------------ VALIDAÇÕES ------------------------
+
+    // Valida se o CPF é válido
+    function validarCPF(cpf) {
+        cpf = cpf.replace(/[^\d]+/g, '');
+        if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+        let soma = 0;
+        for (let i = 0; i < 9; i++) soma += parseInt(cpf.charAt(i)) * (10 - i);
+        let resto = 11 - (soma % 11);
+        if (resto >= 10) resto = 0;
+        if (resto !== parseInt(cpf.charAt(9))) return false;
+        soma = 0;
+        for (let i = 0; i < 10; i++) soma += parseInt(cpf.charAt(i)) * (11 - i);
+        resto = 11 - (soma % 11);
+        if (resto >= 10) resto = 0;
+        return resto === parseInt(cpf.charAt(10));
+    }
+
+    // Verifica se o nome contém ao menos dois nomes (ex: nome e sobrenome)
+    function validarNomeCompleto(nome) {
+        return nome.trim().split(' ').length >= 2;
+    }
+
+    // Valida se o e-mail está no formato correto
+    function validarEmail(email) {
+        email = email.trim();
+        const regex = /^[\w.%+-]{6,50}@[a-zA-Z0-9.-]{3,}\.[a-zA-Z]{2,3}$/;
+        return regex.test(email);
+    }
+
+    // Verifica se o telefone tem entre 10 e 11 dígitos e se não possui todos iguais após o DDD
+    function validarTelefone(telefone) {
+        telefone = telefone.replace(/\D/g, '');
+        if (telefone.length < 10 || telefone.length > 11) return false;
+        const numero = telefone.slice(2);
+        if (/^(\d)\1+$/.test(numero)) return false;
+        return true;
+    }
+
+    // Valida o CEP no formato 00000-000
+    function validarCEP(cep) {
+        return /^\d{5}-?\d{3}$/.test(cep);
+    }
+
+    // ------------------------ MÁSCARAS ------------------------
+
+    // Aplica máscara ao telefone enquanto o usuário digita
+    document.getElementById('telefone').addEventListener('input', function () {
+        let telefone = this.value.replace(/\D/g, '');
+        if (telefone.length > 11) telefone = telefone.slice(0, 11);
+        telefone = telefone.length <= 10 ?
+            telefone.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3') :
+            telefone.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+        this.value = telefone.trim();
+    });
+
+    // Aplica máscara ao CPF enquanto o usuário digita
+    document.getElementById('cpf').addEventListener('input', function () {
+        let value = this.value.replace(/\D/g, '');
+        if (value.length > 11) value = value.slice(0, 11);
+        value = value.replace(/(\d{3})(\d)/, '$1.$2');
+        value = value.replace(/(\d{3})(\d)/, '$1.$2');
+        value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+        this.value = value;
+    });
+
+    // ------------------------ EXIBIÇÃO DE ERROS ------------------------
+
+    // Exibe mensagem de erro e estiliza campo com borda vermelha
+    function mostrarErro(id, mensagem) {
+        const campo = document.getElementById(id);
+        const erro = document.getElementById('erro-' + id);
+        if (campo) campo.classList.add('border-red-500');
+        if (erro) {
+            erro.textContent = mensagem;
+            erro.classList.remove('hidden');
         }
+    }
 
-        // Validação de nome completo
-        function validarNomeCompleto(nome) {
-            return nome.trim().split(' ').length >= 2;
-        }
-
-        // Validação de e-mail com regras mais específicas
-        function validarEmail(email) {
-            email = email.trim();
-
-            // Regex explica:
-            // ^            => início
-            // [\w.%+-]{6,50} => usuário (mín. 6, máx. 50)
-            // @             => arroba
-            // [a-zA-Z0-9.-]{3,} => domínio (mín. 3 letras)
-            // \.            => ponto
-            // [a-zA-Z]{2,3} => extensão (2 a 3 letras)
-            // $             => fim
-            const regex = /^[\w.%+-]{6,50}@[a-zA-Z0-9.-]{3,}\.[a-zA-Z]{2,3}$/;
-            return regex.test(email);
-        }
-
-        // Validação de telefone com DDD e verificação de dígitos repetidos após DDD
-        function validarTelefone(telefone) {
-            telefone = telefone.replace(/\D/g, '');
-
-            // Tamanho permitido: 10 ou 11 dígitos
-            if (telefone.length < 10 || telefone.length > 11) return false;
-
-
-            // Extra: não permitir que todos os dígitos depois do DDD sejam iguais
-            const ddd = telefone.slice(0, 2);
-            const numero = telefone.slice(2);
-
-            if (/^(\d)\1+$/.test(numero)) return false;
-
-            return true;
-        }
-
-        // Máscara para telefone (ativa enquanto o usuário digita)
-        document.getElementById('telefone').addEventListener('input', function() {
-            let telefone = this.value.replace(/\D/g, '');
-            if (telefone.length > 11) telefone = telefone.slice(0, 11);
-
-            if (telefone.length <= 10) {
-                telefone = telefone.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
-            } else {
-                telefone = telefone.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
-            }
-
-            this.value = telefone.trim();
+    // Limpa todos os erros da tela e campos
+    function limparErros() {
+        document.querySelectorAll('input, select').forEach(el => el.classList.remove('border-red-500'));
+        document.querySelectorAll('p[id^="erro-"]').forEach(p => {
+            p.textContent = '';
+            p.classList.add('hidden');
         });
+    }
 
-        // Validação de CEP (formato e busca via API)
-        function validarCEP(cep) {
-            return /^\d{5}-?\d{3}$/.test(cep);
+    // Limpa erro específico de um campo
+    function limparErro(id) {
+        const campo = document.getElementById(id);
+        const erro = document.getElementById('erro-' + id);
+        if (campo) campo.classList.remove('border-red-500');
+        if (erro) {
+            erro.textContent = '';
+            erro.classList.add('hidden');
         }
+    }
 
-        // Exibe erro no campo informado
-        function mostrarErro(id, mensagem) {
-            const campo = document.getElementById(id);
-            const erro = document.getElementById('erro-' + id);
+    // ------------------------ VALIDAÇÃO DO FORMULÁRIO ------------------------
 
-            if (campo) campo.classList.add('border-red-500');
-            if (erro) {
-                erro.textContent = mensagem;
-                erro.classList.remove('hidden');
-            }
-        }
+    // Valida todos os campos da Etapa 1 e prossegue se estiver tudo certo
+    function validarEtapa1() {
+        limparErros();
+        let valido = true;
 
-        // Limpa todos os erros visuais e mensagens
-        function limparErros() {
-            document.querySelectorAll('input, select').forEach(el => el.classList.remove('border-red-500'));
-            document.querySelectorAll('p[id^="erro-"]').forEach(p => {
-                p.textContent = '';
-                p.classList.add('hidden');
-            });
-        }
+        const campos = [
+            { id: 'cpf', regra: v => v.trim() && validarCPF(v), msg: 'CPF inválido.' },
+            { id: 'nome', regra: v => v.trim() && validarNomeCompleto(v), msg: 'Digite seu nome completo.' },
+            {
+                id: 'data_nascimento',
+                regra: v => {
+                    if (!v.trim()) return false;
+                    const dataLimite = new Date('2010-12-31');
+                    const dataInformada = new Date(v);
+                    if (dataInformada > dataLimite) {
+                        mostrarErro('data_nascimento', 'A data deve ser igual ou anterior a 31/12/2010.');
+                        return false;
+                    }
+                    return true;
+                },
+                msg: 'Informe sua data de nascimento corretamente.'
+            },
+            { id: 'genero', regra: v => v.trim(), msg: 'Selecione seu gênero.' },
+            { id: 'cep', regra: v => validarCEP(v), msg: 'CEP inválido.' },
+            { id: 'cidade', regra: v => v.trim(), msg: 'Informe a cidade.' },
+            { id: 'rua', regra: v => v.trim(), msg: 'Informe a rua.' },
+            { id: 'numero', regra: v => v.trim(), msg: 'Informe o número.' },
+            { id: 'bairro', regra: v => v.trim(), msg: 'Informe o bairro.' },
+            { id: 'uf', regra: v => v.trim(), msg: 'Selecione o estado.' },
+            { id: 'email', regra: v => validarEmail(v), msg: 'E-mail inválido.' },
+            { id: 'telefone', regra: v => validarTelefone(v), msg: 'Telefone inválido.' }
+        ];
 
-        // Validação da Etapa 1 (formulário)
-        function validarEtapa1() {
-            limparErros();
-            let valido = true;
-
-            const campos = [{
-                    id: 'cpf',
-                    regra: v => v.trim() && validarCPF(v),
-                    msg: 'CPF inválido.'
-                },
-                {
-                    id: 'nome',
-                    regra: v => v.trim() && validarNomeCompleto(v),
-                    msg: 'Digite seu nome completo.'
-                },
-                {
-                    id: 'data_nascimento',
-                    regra: v => v.trim(),
-                    msg: 'Informe sua data de nascimento.'
-                },
-                {
-                    id: 'genero',
-                    regra: v => v.trim(),
-                    msg: 'Selecione seu gênero.'
-                },
-                {
-                    id: 'cep',
-                    regra: v => validarCEP(v),
-                    msg: 'CEP inválido.'
-                },
-                {
-                    id: 'cidade',
-                    regra: v => v.trim(),
-                    msg: 'Informe a cidade.'
-                },
-                {
-                    id: 'rua',
-                    regra: v => v.trim(),
-                    msg: 'Informe a rua.'
-                },
-                {
-                    id: 'numero',
-                    regra: v => v.trim(),
-                    msg: 'Informe o número.'
-                },
-                {
-                    id: 'bairro',
-                    regra: v => v.trim(),
-                    msg: 'Informe o bairro.'
-                },
-                {
-                    id: 'uf',
-                    regra: v => v.trim(),
-                    msg: 'Selecione o estado.'
-                },
-                {
-                    id: 'email',
-                    regra: v => validarEmail(v),
-                    msg: 'E-mail inválido.'
-                },
-                {
-                    id: 'telefone',
-                    regra: v => validarTelefone(v),
-                    msg: 'Telefone inválido.'
-                }
-            ];
-
-            campos.forEach(campo => {
-                const valor = document.getElementById(campo.id)?.value || '';
-                if (!campo.regra(valor)) {
-                    mostrarErro(campo.id, campo.msg);
-                    valido = false;
-                }
-            });
-
-            const termos = document.getElementById('termos');
-            if (termos && !termos.checked) {
-                mostrarErro('termos', 'Você deve aceitar os termos de uso para continuar.');
+        campos.forEach(campo => {
+            const valor = document.getElementById(campo.id)?.value || '';
+            if (!campo.regra(valor)) {
+                mostrarErro(campo.id, campo.msg);
                 valido = false;
             }
-
-            if (valido) {
-                mostrarEtapa2();
-            }
-        }
-
-        // Máscara dinâmica para CPF
-        document.getElementById('cpf').addEventListener('input', function() {
-            let value = this.value.replace(/\D/g, '');
-            if (value.length > 11) value = value.slice(0, 11);
-            value = value.replace(/(\d{3})(\d)/, '$1.$2');
-            value = value.replace(/(\d{3})(\d)/, '$1.$2');
-            value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-            this.value = value;
         });
 
-        // Busca de endereço via CEP
-        document.getElementById('cep').addEventListener('blur', function() {
-            const cep = this.value.replace(/\D/g, '');
-
-            if (!validarCEP(cep)) {
-                mostrarErro('cep', 'CEP inválido.');
-                return;
-            }
-
-            fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                .then(response => response.json())
-                .then(data => {
-                    if (!data.erro) {
-                        document.getElementById('rua').value = data.logradouro || '';
-                        document.getElementById('bairro').value = data.bairro || '';
-                        document.getElementById('cidade').value = data.localidade || '';
-                        document.getElementById('uf').value = data.uf || '';
-                    } else {
-                        mostrarErro('cep', 'CEP não encontrado.');
-                    }
-                })
-                .catch(() => mostrarErro('cep', 'Erro ao buscar CEP.'));
-        });
-
-        // Limpa os campos se o CEP for apagado
-        document.getElementById('cep').addEventListener('input', function() {
-            const cep = this.value.replace(/\D/g, '');
-            if (cep.length < 8) {
-                document.getElementById('rua').value = '';
-                document.getElementById('bairro').value = '';
-                document.getElementById('cidade').value = '';
-                document.getElementById('uf').value = '';
-            }
-        });
-
-        // Troca de etapa
-        function mostrarEtapa2() {
-            document.getElementById('etapa1').classList.add('hidden');
-            document.getElementById('etapa2').classList.remove('hidden');
+        const termos = document.getElementById('termos');
+        if (termos && !termos.checked) {
+            mostrarErro('termos', 'Você deve aceitar os termos de uso para continuar.');
+            valido = false;
         }
 
-        function mostrarEtapa1() {
-            document.getElementById('etapa2').classList.add('hidden');
-            document.getElementById('etapa1').classList.remove('hidden');
+        if (valido) {
+            mostrarEtapa2();
+        }
+    }
+
+    // ------------------------ BUSCA DE ENDEREÇO POR CEP ------------------------
+
+    // Busca o endereço usando a API ViaCEP ao sair do campo de CEP
+    document.getElementById('cep').addEventListener('blur', function () {
+        const cep = this.value.replace(/\D/g, '');
+        if (!validarCEP(cep)) {
+            mostrarErro('cep', 'CEP inválido.');
+            return;
         }
 
-        function mostrarOpcaoPerfil() {
-            const valor = document.getElementById('perfil').value;
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(response => response.json())
+            .then(data => {
+                if (!data.erro) {
+                    document.getElementById('rua').value = data.logradouro || '';
+                    document.getElementById('bairro').value = data.bairro || '';
+                    document.getElementById('cidade').value = data.localidade || '';
+                    document.getElementById('uf').value = data.uf || '';
+                } else {
+                    mostrarErro('cep', 'CEP não encontrado.');
+                }
+            })
+            .catch(() => mostrarErro('cep', 'Erro ao buscar CEP.'));
+    });
 
-            // Esconde todos os blocos principais
-            document.getElementById('opcaoTentante').classList.add('hidden');
-            document.getElementById('opcaoGestante').classList.add('hidden');
-            document.getElementById('opcaoMamae').classList.add('hidden');
-
-            // Esconde todos os detalhes adicionais (para resetar ao trocar)
-            document.getElementById('detalhesGestante').classList.add('hidden');
-            document.getElementById('detalhesMamae').classList.add('hidden');
-
-            // Limpa selects
-            const selectGestante = document.getElementById('detalhe_gestante');
-            const selectMamae = document.getElementById('detalhe_mamae');
-            if (selectGestante) selectGestante.value = '';
-            if (selectMamae) selectMamae.value = '';
-
-            // Mostra o bloco correspondente
-            if (valor === 'Tentante') {
-                document.getElementById('opcaoTentante').classList.remove('hidden');
-            } else if (valor === 'Gestante') {
-                document.getElementById('opcaoGestante').classList.remove('hidden');
-            } else if (valor === 'Mamãe') {
-                document.getElementById('opcaoMamae').classList.remove('hidden');
-            }
+    // Limpa os campos de endereço se o CEP for apagado
+    document.getElementById('cep').addEventListener('input', function () {
+        const cep = this.value.replace(/\D/g, '');
+        if (cep.length < 8) {
+            document.getElementById('rua').value = '';
+            document.getElementById('bairro').value = '';
+            document.getElementById('cidade').value = '';
+            document.getElementById('uf').value = '';
         }
+    });
 
-        // Mostra inputs adicionais para gestante quando uma opção for escolhida
-        function mostrarCamposGestante() {
-            const select = document.getElementById('detalhe_gestante');
-            const valor = select.value;
+    // ------------------------ CONTROLE DE ETAPAS DO FORMULÁRIO ------------------------
 
-            if (valor !== '') {
-                document.getElementById('detalhesGestante').classList.remove('hidden');
-            } else {
-                document.getElementById('detalhesGestante').classList.add('hidden');
-            }
+    function mostrarEtapa2() {
+        document.getElementById('etapa1').classList.add('hidden');
+        document.getElementById('etapa2').classList.remove('hidden');
+    }
+
+    function mostrarEtapa1() {
+        document.getElementById('etapa2').classList.add('hidden');
+        document.getElementById('etapa1').classList.remove('hidden');
+    }
+
+    // ------------------------ CAMPOS EXTRAS POR PERFIL ------------------------
+
+    // Mostra os campos de acordo com o perfil selecionado (Tentante, Gestante, Mamãe, Outros)
+    function mostrarOpcaoPerfil() {
+        const perfil = document.getElementById('perfil').value;
+
+        document.getElementById('opcaoOutros').classList.add('hidden');
+        document.getElementById('opcaoTentante').classList.add('hidden');
+        document.getElementById('opcaoGestante').classList.add('hidden');
+        document.getElementById('opcaoMamae').classList.add('hidden');
+        document.getElementById('detalhesGestante').classList.add('hidden');
+        document.getElementById('detalhesMamae').classList.add('hidden');
+
+        if (perfil === 'Tentante') {
+            document.getElementById('opcaoTentante').classList.remove('hidden');
+        } else if (perfil === 'Gestante') {
+            document.getElementById('opcaoGestante').classList.remove('hidden');
+        } else if (perfil === 'Mamãe') {
+            document.getElementById('opcaoMamae').classList.remove('hidden');
+        } else if (perfil === 'Outros') {
+            document.getElementById('opcaoOutros').classList.remove('hidden');
         }
+    }
 
-        function mostrarCamposMamae() {
-            const valor = document.getElementById('detalhe_mamae').value;
-            if (valor !== '') {
-                document.getElementById('detalhesMamae').classList.remove('hidden');
-            } else {
-                document.getElementById('detalhesMamae').classList.add('hidden');
-            }
+    // Mostra campos adicionais caso a gestante selecione uma opção válida
+    function mostrarCamposGestante() {
+        const detalhe = document.getElementById('detalhe_gestante').value;
+        const detalhes = document.getElementById('detalhesGestante');
+        detalhes.classList.toggle('hidden', !detalhe);
+    }
+
+    // Mostra campos adicionais caso a mamãe selecione uma opção válida
+    function mostrarCamposMamae() {
+        const detalhe = document.getElementById('detalhe_mamae').value;
+        const detalhes = document.getElementById('detalhesMamae');
+        detalhes.classList.toggle('hidden', !detalhe);
+    }
+
+    // ------------------------ SCROLL SUAVE ------------------------
+
+    function rolarParaFormulario() {
+        document.getElementById('secao2').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function rolarParaFormulario2() {
+        document.getElementById('formulario').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // ------------------------ VALIDAÇÕES INSTANTÂNEAS ------------------------
+
+    const inputEmail = document.getElementById('email');
+    inputEmail.addEventListener('input', () => {
+        const email = inputEmail.value.trim();
+        if (!validarEmail(email)) {
+            mostrarErro('email', 'E-mail inválido.');
+        } else {
+            limparErro('email');
         }
+    });
 
-        // Rolagem suave até o formulário
-        function rolarParaFormulario() {
-            document.getElementById('secao2').scrollIntoView({
-                behavior: 'smooth'
-            });
+    const inputTelefone = document.getElementById('telefone');
+    inputTelefone.addEventListener('input', () => {
+        const telefone = inputTelefone.value.trim();
+        if (!validarTelefone(telefone)) {
+            mostrarErro('telefone', 'Telefone inválido.');
+        } else {
+            limparErro('telefone');
         }
-
-        function rolarParaFormulario2() {
-            document.getElementById('formulario').scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
-
-        // Validação instantânea do E-MAIL
-        const inputEmail = document.getElementById('email');
-        inputEmail.addEventListener('input', () => {
-            const email = inputEmail.value.trim();
-            if (!validarEmail(email)) {
-                mostrarErro('email', 'E-mail inválido.');
-            } else {
-                limparErro('email');
-            }
-        });
-
-        // Validação instantânea do TELEFONE
-        const inputTelefone = document.getElementById('telefone');
-        inputTelefone.addEventListener('input', () => {
-            const telefone = inputTelefone.value.trim();
-            if (!validarTelefone(telefone)) {
-                mostrarErro('telefone', 'Telefone inválido.');
-            } else {
-                limparErro('telefone');
-            }
-        });
-
-        // Função auxiliar para limpar um erro individual
-        function limparErro(id) {
-            const campo = document.getElementById(id);
-            const erro = document.getElementById('erro-' + id);
-            if (campo) campo.classList.remove('border-red-500');
-            if (erro) {
-                erro.textContent = '';
-                erro.classList.add('hidden');
-            }
-        }
-    </script>
+    });
+</script>
 </body>
 
 </html>

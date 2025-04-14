@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ClienteController extends Controller
 {
@@ -15,6 +16,12 @@ class ClienteController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'data_nascimento' => 'required|date|before_or_equal:2010-01-01',
+        ], [
+            'data_nascimento.after_or_equal' => 'A data de nascimento deve ser a partir de 01/01/2010.',
+        ]);
+
         $request->merge([
             'cpf' => preg_replace('/\D/', '', $request->cpf), // Remove tudo que não for número
         ]);
@@ -79,6 +86,7 @@ class ClienteController extends Controller
             // Cria os dados da campanha
             $cliente->dadocampanha()->create([
                 'perfil' => $request->perfil,
+                'detalhe_outros' => $request->detalhe_outros,
                 'detalhe_tentante' => $request->detalhe_tentante,
                 'detalhe_gestante' => $request->detalhe_gestante,
                 'mes_gestacao' => $request->mes_gestacao,
@@ -109,5 +117,43 @@ class ClienteController extends Controller
 
         // Passando as variáveis para a view
         return view('painel', compact('clientes', 'novosRegistros', 'registrosAtualizados'));
+    }
+
+    public function exportarCsv(): StreamedResponse
+    {
+        $clientes = Cliente::with('dadocampanha')->get();
+
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=clientes.csv",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $columns = ['ID', 'Nome', 'Perfil', 'Gênero', 'Telefone', 'Data Nascimento', 'Email', 'Data Cadastro', 'Data Atualização'];
+
+        $callback = function () use ($clientes, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($clientes as $cliente) {
+                fputcsv($file, [
+                    $cliente->id,
+                    $cliente->nome,
+                    $cliente->dadocampanha->perfil ?? 'N/A',
+                    $cliente->genero,
+                    $cliente->telefone,
+                    \Carbon\Carbon::parse($cliente->data_nascimento)->format('d/m/Y'),
+                    $cliente->email,
+                    \Carbon\Carbon::parse($cliente->created_at)->format('d/m/Y H:i'),
+                    \Carbon\Carbon::parse($cliente->updated_at)->format('d/m/Y H:i'),
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 }
