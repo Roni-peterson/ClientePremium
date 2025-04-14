@@ -159,7 +159,8 @@
                                         <option value="">Gênero</option>
                                         <option value="Feminino">Feminino</option>
                                         <option value="Masculino">Masculino</option>
-                                        <option value="Outro">Outro</option>
+                                        <option value="Outros">Outros</option>
+                                        <option value="NaoInformar">Não Informar</option>
                                     </select>
                                     <p id="erro-genero" class="text-red-600 text-sm hidden mt-1"></p>
                                 </div>
