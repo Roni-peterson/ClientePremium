@@ -18,7 +18,8 @@ class DadoCampanha extends Model
         'sexo_bebe',
         'nome_bebe',
         'detalhe_mamae',
-        'faixa_etaria_bebe'
+        'faixa_etaria_bebe',
+        'detalhe_outros',
     ];
 
     public function cliente()

@@ -50,16 +50,20 @@ class ClienteController extends Controller
             ]);
 
             // Atualiza dados da campanha
-            $cliente->dadocampanha()->updateOrCreate([], [
-                'perfil' => $request->perfil,
-                'detalhe_tentante' => $request->detalhe_tentante,
-                'detalhe_gestante' => $request->detalhe_gestante,
-                'mes_gestacao' => $request->mes_gestacao,
-                'sexo_bebe' => $request->sexo_bebe,
-                'nome_bebe' => $request->nome_bebe,
-                'detalhe_mamae' => $request->detalhe_mamae,
-                'faixa_etaria_bebe' => $request->faixa_etaria_bebe,
-            ]);
+            $cliente->dadocampanha()->updateOrCreate(
+                ['cliente_id' => $cliente->id], // ← chave de relacionamento
+                [
+                    'perfil' => $request->perfil,
+                    'detalhe_outros' => $request->detalhe_outros,
+                    'detalhe_tentante' => $request->detalhe_tentante,
+                    'detalhe_gestante' => $request->detalhe_gestante,
+                    'mes_gestacao' => $request->mes_gestacao,
+                    'sexo_bebe' => $request->sexo_bebe,
+                    'nome_bebe' => $request->nome_bebe,
+                    'detalhe_mamae' => $request->detalhe_mamae,
+                    'faixa_etaria_bebe' => $request->faixa_etaria_bebe,
+                ]
+            );
 
             session()->flash('success', 'Dados atualizados com sucesso!');
         } else {
@@ -104,19 +108,39 @@ class ClienteController extends Controller
 
     public function painel()
     {
-        // Contagem de novos registros
-        $novosRegistros = Cliente::where('created_at', '>=', now()->subDays(30))->count();
+        // Contagem de novos registros (últimos 5 dias)
+        $novosRegistros = Cliente::where('created_at', '>=', now()->subDays(5))->count();
 
-        // Contagem de registros atualizados
-        $registrosAtualizados = Cliente::where('updated_at', '>=', now()->subDays(30))->count();
+        // Contagem de registros atualizados (últimos 3 dias)
+        $registrosAtualizados = Cliente::where('updated_at', '>=', now()->subDays(3))->count();
 
-        // Recuperando todos os clientes
+        // Total de registros
+        $totalRegistros = Cliente::count();
+
+        // Contagem por perfil
+        $registrosPorPerfil = \App\Models\DadoCampanha::select('perfil', DB::raw('count(*) as total'))
+            ->groupBy('perfil')
+            ->pluck('total', 'perfil');
+
+        // Recuperando todos os clientes com dados da campanha
         $clientes = Cliente::with('dadocampanha')
             ->orderBy('id', 'asc')
             ->paginate(10);
 
-        // Passando as variáveis para a view
-        return view('painel', compact('clientes', 'novosRegistros', 'registrosAtualizados'));
+        return view('painel', compact(
+            'clientes',
+            'novosRegistros',
+            'registrosAtualizados',
+            'totalRegistros',
+            'registrosPorPerfil'
+        ));
+    }
+
+    public function mostrar($id)
+    {
+        $cliente = Cliente::with(['endereco', 'dadocampanha'])->findOrFail($id);
+
+        return view('cliente-detalhes', compact('cliente'));
     }
 
     public function exportarCsv(): StreamedResponse

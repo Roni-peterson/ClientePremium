@@ -306,7 +306,7 @@
                                 <select name="detalhe_tentante" class="w-full border border-gray-300 rounded px-3 py-3 sm:py-2">
                                     <option value="">Qual seu perfil?</option>
                                     <option value="primeiro">Tentante Primeiro Filho</option>
-                                    <option value="outros">Tentante Segundo Filho ou Mais</option>
+                                    <option value="SengundoMais">Tentante Segundo Filho ou Mais</option>
                                 </select>
                             </div>
 
@@ -316,7 +316,7 @@
                                 <select id="detalhe_gestante" name="detalhe_gestante" onchange="mostrarCamposGestante()" class="w-full border border-gray-300 rounded px-3 py-3 sm:py-2 mb-4">
                                     <option value="">Qual seu perfil?</option>
                                     <option value="primeiro">Gestante Primeiro Filho</option>
-                                    <option value="outros">Gestante Segundo Filho ou Mais</option>
+                                    <option value="SengundoMais">Gestante Segundo Filho ou Mais</option>
                                 </select>
                             </div>
 
