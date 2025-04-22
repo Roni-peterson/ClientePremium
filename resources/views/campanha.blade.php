@@ -4,10 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Campanha Mamãe Premiada</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bobby+Jones&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Childos+Arabic&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="preload" href="{{ asset('images/img_secao2.png') }}" as="image" type="image/png" />
+    <link rel="preload" href="{{ asset('images/img_secao1.jpg') }}" as="image" type="image/jpg" />
+    <link rel="preload" href="{{ asset('images/img_secao1_mobile.png') }}" as="image" type="image/png" />
+    <link rel="preload" href="{{ asset('images/logo_secao1_mobile_xxl.png') }}" as="image" type="image/png" />
+    <link rel="preload" href="{{ asset('images/logo_secao1.png') }}" as="image" type="image/png" />
+    <link rel="preload" href="{{ asset('images/logo_form_mobile.png') }}" as="image" type="image/png" />
+    <link rel="preload" href="{{ asset('images/logo_secao1_mobile.png') }}" as="image" type="image/png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         html,
@@ -22,6 +30,9 @@
 
         .font-childos {
             font-family: 'Childos Arabic', sans-serif;
+        }
+        .font-bobby-alt {
+            font-family: 'Poppins', sans-serif;
         }
 
         @media (max-width: 768px) {
@@ -49,6 +60,18 @@
                 display: none;
             }
         }
+
+        /* Estilo padrão: imagem MOBILE */
+        section.bg-secao1 {
+            background-image: url('{{ asset('images/img_secao1_mobile.png') }}');
+        }
+
+        /* Quando for desktop: imagem DESKTOP */
+        @media (min-width: 768px) {
+            section.bg-secao1 {
+                background-image: url('{{ asset('images/img_secao1.jpg') }}');
+            }
+        }
     </style>
 </head>
 
@@ -56,11 +79,10 @@
     <div class="w-full">
         <!-- Seção 1 -->
         <section
-            class="min-h-screen bg-cover bg-center relative flex flex-col justify-center items-center text-center px-4"
-            style="background-image: url('{{ asset('images/img_secao1.png') }}');">
+            class="min-h-screen bg-cover bg-center relative flex flex-col justify-center items-center text-center px-4 bg-secao1">
             <div class="mb-8 w-full flex justify-center items-center">
                 <picture>
-                    <source srcset="{{ asset('images/logo_secao1_mobile_xl.png') }}" media="(max-width: 767px)">
+                    <source srcset="{{ asset('images/logo_secao1_mobile_xxl.png') }}" media="(max-width: 767px)">
                     <img src="{{ asset('images/logo_secao1.png') }}" alt="Logo da campanha"
                         class="w-full max-w-[600px] sm:max-w-[700px] md:max-w-[800px] lg:max-w-[900px] xl:max-w-[1080px] 2xl:max-w-[1280px]">
                 </picture>
@@ -74,41 +96,74 @@
         </section>
         <!-- Seção 2 -->
         <section
-            id="secao2"
-            class="min-h-screen bg-cover bg-center relative text-center px-4 text-white"
-            style="background-image: url('{{ asset('images/img_secão2.png') }}');">
+    id="secao2"
+    class="min-h-screen bg-cover bg-center flex flex-col text-center text-white"
+    style="background-image: url('{{ asset('images/img_secao2.png') }}');">
 
-            <!-- Parte de cima (40%) -->
-            <div class="h-[40vh] flex items-center justify-center">
-                <div class="max-w-xl px-4">
-                    <h3 class="text-3xl md:text-4xl font-bold mb-4 font-bobby">Como funciona?</h3>
-                    <p class="text-base md:text-lg text-justify font-childos">
-                        A campanha Mamãe Premiada vai sortear mil reais por mês para os clientes que se cadastrarem e comprarem acima de R$ 70,00 em compras.
-                        Todo mês esse sorteio pegará os números da sorte referente ao mês de realização.
-                        Ou seja, comprando acima de R$ 70,00 no próximo mês, haverá uma nova oportunidade.
-                    </p>
-                </div>
-            </div>
+    <!-- Parte de cima (80% no desktop, altura automática no mobile) -->
+    <div class="flex-grow md:h-[80%] flex items-center justify-center px-4 md:py-0">
+        <div class="w-full max-w-4xl md:max-w-5xl">
+            <!-- Título principal -->
+            <h3 class="text-lg md:text-4xl font-bold mb-4 font-bobby text-center">
+                Saiba como participar da Mamãe Premiada!
+            </h3>
 
-            <!-- Parte do meio (40%) -->
-            <div class="h-[40vh] flex items-center justify-center">
-                <div class="max-w-xl px-4">
-                    <h3 class="text-3xl md:text-4xl font-bold mb-4 font-bobby">O que preciso fazer?</h3>
-                    <p class="text-base md:text-lg text-justify font-childos">
-                        Para participar é preciso estar cadastrado no programa de relacionamento da Farmácia Indiana – Cliente Premium – e fazer compras a partir de R$ 70,00.
-                        Lembrando que para participar todo mês é preciso comprar pelo menos 1 vez por mês.
-                    </p>
-                </div>
-            </div>
+            <!-- Conteúdos -->
+            <h4 class="text-sm md:text-xl font-semibold mb-1 font-bobby-alt text-left mt-4 md:mt-8">
+                Quem pode participar?
+            </h4>
+            <p class="text-xs md:text-base text-left font-childos mb-2">
+                A <strong>Mamãe Premiada</strong> é uma campanha pensada com carinho para mulheres que são mães ou sonham em ser. Mas atenção: <strong>qualquer pessoa pode participar</strong>, desde que siga as regras!
+            </p>
 
-            <!-- Parte de baixo (20%) com botão -->
-            <div class="h-[20vh] flex items-center justify-center relative">
-                <button onclick="rolarParaFormulario2()" class="font-bobby whitespace-nowrap bg-pink-500 text-white px-6 py-3 rounded-xl text-dm md:text-xl hover:bg-pink-600 transition absolute bottom-28 md:bottom-16 left-1/2 transform -translate-x-1/2">
-                    QUERO ME PARTICIPAR
-                </button>
-            </div>
+            <h4 class="text-sm md:text-xl font-semibold mb-1 font-bobby-alt text-left mt-4 md:mt-8">
+                Prêmios e condições
+            </h4>
+            <p class="text-xs md:text-base text-left font-childos mb-2">
+                Todos os meses, sortearemos <strong>R$ 1.000,00 em prêmios</strong> para os participantes que:
+            </p>
+            <ul class="list-disc text-xs md:text-base font-childos mb-2 pl-5 text-left">
+                <li>Realizarem uma compra a partir de R$ 70,00 em produtos da <strong>categoria Mamãe e Bebê</strong>.</li>
+                <li>Completarem o <strong>cadastro corretamente</strong> no site da campanha.</li>
+            </ul>
 
-        </section>
+            <h4 class="text-sm md:text-xl font-semibold mb-1 font-bobby-alt text-left mt-4 md:mt-8">
+                Como garantir seu número da sorte
+            </h4>
+            <p class="text-xs md:text-base text-left font-childos mb-2">
+                🎟️ Cada compra válida garante <strong>1 número da sorte</strong>. Quanto mais compras elegíveis, mais chances de ganhar!
+            </p>
+
+            <h4 class="text-sm md:text-xl font-semibold mb-1 font-bobby-alt text-left mt-4 md:mt-8">
+                Como continuar participando todo mês
+            </h4>
+            <p class="text-xs md:text-base text-left font-childos mb-2">
+                🔁 Para continuar concorrendo nos sorteios mensais, é necessário:
+            </p>
+            <ul class="list-disc text-xs md:text-base font-childos mb-2 pl-5 text-left">
+                <li>Fazer ao menos <strong>uma compra no valor mínimo</strong> e dentro da categoria indicada <strong>a cada mês</strong>.</li>
+                <li>Estar com o <strong>cadastro completo e atualizado</strong>.</li>
+            </ul>
+
+            <h4 class="text-sm md:text-xl font-semibold mb-1 font-bobby-alt text-left mt-4 md:mt-8">
+                Importante!
+            </h4>
+            <p class="text-xs md:text-base text-left font-childos">
+                ❌ Compras fora do valor ou que não se enquadram nas regras da campanha, assim como cadastros incompletos, <strong>não geram número da sorte</strong> para o mês.
+            </p>
+        </div>
+    </div>
+
+    <!-- Parte de baixo (20% no desktop, auto no mobile) -->
+<div class="md:h-[20%] h-auto flex items-center justify-center relative pb-10 md:pb-0">
+    <button 
+        onclick="rolarParaFormulario2()"
+        class="font-bobby whitespace-nowrap bg-pink-500 text-white px-6 py-3 rounded-xl text-sm hover:bg-pink-600 transition
+               md:absolute mb-[env(safe-area-inset-bottom)] bottom-6 md:bottom-16 md:left-1/2 md:-translate-x-1/2">
+        QUERO PARTICIPAR
+    </button>
+</div>
+</section>
         <!-- Seção do formulário -->
         <section
             id="formulario"
@@ -166,7 +221,7 @@
 
                             <div class="flex flex-col md:flex-row gap-1 md:gap-4 mb-1">
                                 <div class="flex-1 mb-1">
-                                    <input name="cep" id="cep" placeholder="CEP" class="w-full border border-gray-300 rounded px-3 py-3 sm:py-2" required>
+                                    <input name="cep" id="cep" placeholder="00000-000" maxlength="9" class="w-full border border-gray-300 rounded px-3 py-3 sm:py-2" required>
                                     <p id="erro-cep" class="text-red-600 text-sm hidden mt-1"></p>
                                 </div>
                                 <div class="flex-1 mb-1">
@@ -352,284 +407,338 @@
                             </div>
                         </div>
                     </form>
-                </div>F
+                </div>
             </div>
         </section>
     </div>
 
-<!-- SCRIPTS -->
-<script>
-    // ------------------------ VALIDAÇÕES ------------------------
+    <!-- SCRIPTS -->
+    <script>
+        // ------------------------ VALIDAÇÕES ------------------------
 
-    // Valida se o CPF é válido
-    function validarCPF(cpf) {
-        cpf = cpf.replace(/[^\d]+/g, '');
-        if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
-        let soma = 0;
-        for (let i = 0; i < 9; i++) soma += parseInt(cpf.charAt(i)) * (10 - i);
-        let resto = 11 - (soma % 11);
-        if (resto >= 10) resto = 0;
-        if (resto !== parseInt(cpf.charAt(9))) return false;
-        soma = 0;
-        for (let i = 0; i < 10; i++) soma += parseInt(cpf.charAt(i)) * (11 - i);
-        resto = 11 - (soma % 11);
-        if (resto >= 10) resto = 0;
-        return resto === parseInt(cpf.charAt(10));
-    }
-
-    // Verifica se o nome contém ao menos dois nomes (ex: nome e sobrenome)
-    function validarNomeCompleto(nome) {
-        return nome.trim().split(' ').length >= 2;
-    }
-
-    // Valida se o e-mail está no formato correto
-    function validarEmail(email) {
-        email = email.trim();
-        const regex = /^[\w.%+-]{6,50}@[a-zA-Z0-9.-]{3,}\.[a-zA-Z]{2,3}$/;
-        return regex.test(email);
-    }
-
-    // Verifica se o telefone tem entre 10 e 11 dígitos e se não possui todos iguais após o DDD
-    function validarTelefone(telefone) {
-        telefone = telefone.replace(/\D/g, '');
-        if (telefone.length < 10 || telefone.length > 11) return false;
-        const numero = telefone.slice(2);
-        if (/^(\d)\1+$/.test(numero)) return false;
-        return true;
-    }
-
-    // Valida o CEP no formato 00000-000
-    function validarCEP(cep) {
-        return /^\d{5}-?\d{3}$/.test(cep);
-    }
-
-    // ------------------------ MÁSCARAS ------------------------
-
-    // Aplica máscara ao telefone enquanto o usuário digita
-    document.getElementById('telefone').addEventListener('input', function () {
-        let telefone = this.value.replace(/\D/g, '');
-        if (telefone.length > 11) telefone = telefone.slice(0, 11);
-        telefone = telefone.length <= 10 ?
-            telefone.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3') :
-            telefone.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
-        this.value = telefone.trim();
-    });
-
-    // Aplica máscara ao CPF enquanto o usuário digita
-    document.getElementById('cpf').addEventListener('input', function () {
-        let value = this.value.replace(/\D/g, '');
-        if (value.length > 11) value = value.slice(0, 11);
-        value = value.replace(/(\d{3})(\d)/, '$1.$2');
-        value = value.replace(/(\d{3})(\d)/, '$1.$2');
-        value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-        this.value = value;
-    });
-
-    // ------------------------ EXIBIÇÃO DE ERROS ------------------------
-
-    // Exibe mensagem de erro e estiliza campo com borda vermelha
-    function mostrarErro(id, mensagem) {
-        const campo = document.getElementById(id);
-        const erro = document.getElementById('erro-' + id);
-        if (campo) campo.classList.add('border-red-500');
-        if (erro) {
-            erro.textContent = mensagem;
-            erro.classList.remove('hidden');
+        // Valida se o CPF é válido
+        function validarCPF(cpf) {
+            cpf = cpf.replace(/[^\d]+/g, '');
+            if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+            let soma = 0;
+            for (let i = 0; i < 9; i++) soma += parseInt(cpf.charAt(i)) * (10 - i);
+            let resto = 11 - (soma % 11);
+            if (resto >= 10) resto = 0;
+            if (resto !== parseInt(cpf.charAt(9))) return false;
+            soma = 0;
+            for (let i = 0; i < 10; i++) soma += parseInt(cpf.charAt(i)) * (11 - i);
+            resto = 11 - (soma % 11);
+            if (resto >= 10) resto = 0;
+            return resto === parseInt(cpf.charAt(10));
         }
-    }
 
-    // Limpa todos os erros da tela e campos
-    function limparErros() {
-        document.querySelectorAll('input, select').forEach(el => el.classList.remove('border-red-500'));
-        document.querySelectorAll('p[id^="erro-"]').forEach(p => {
-            p.textContent = '';
-            p.classList.add('hidden');
+        // Verifica se o nome contém ao menos dois nomes (ex: nome e sobrenome)
+        function validarNomeCompleto(nome) {
+            return nome.trim().split(' ').length >= 2;
+        }
+
+        // Valida se o e-mail está no formato correto
+        function validarEmail(email) {
+            email = email.trim();
+            const regex = /^[\w.%+-]{6,50}@[a-zA-Z0-9.-]{3,}\.[a-zA-Z]{2,3}$/;
+            return regex.test(email);
+        }
+
+        // Verifica se o telefone tem entre 10 e 11 dígitos e se não possui todos iguais após o DDD
+        function validarTelefone(telefone) {
+            telefone = telefone.replace(/\D/g, '');
+            if (telefone.length < 10 || telefone.length > 11) return false;
+            const numero = telefone.slice(2);
+            if (/^(\d)\1+$/.test(numero)) return false;
+            return true;
+        }
+
+        // Valida o CEP no formato 00000-000
+        function validarCEP(cep) {
+            return /^\d{5}-?\d{3}$/.test(cep);
+        }
+
+        // ------------------------ MÁSCARAS ------------------------
+
+        // Aplica máscara ao telefone enquanto o usuário digita
+        document.getElementById('telefone').addEventListener('input', function() {
+            let telefone = this.value.replace(/\D/g, '');
+            if (telefone.length > 11) telefone = telefone.slice(0, 11);
+            telefone = telefone.length <= 10 ?
+                telefone.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3') :
+                telefone.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+            this.value = telefone.trim();
         });
-    }
 
-    // Limpa erro específico de um campo
-    function limparErro(id) {
-        const campo = document.getElementById(id);
-        const erro = document.getElementById('erro-' + id);
-        if (campo) campo.classList.remove('border-red-500');
-        if (erro) {
-            erro.textContent = '';
-            erro.classList.add('hidden');
+        // Aplica máscara ao CPF enquanto o usuário digita
+        document.getElementById('cpf').addEventListener('input', function() {
+            let value = this.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.slice(0, 11);
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            this.value = value;
+        });
+
+        document.getElementById('cep').addEventListener('input', function() {
+            let cep = this.value.replace(/\D/g, '');
+            if (cep.length > 8) cep = cep.slice(0, 8);
+            cep = cep.replace(/(\d{5})(\d{0,3})/, '$1-$2');
+            this.value = cep.trim();
+        });
+
+        // ------------------------ EXIBIÇÃO DE ERROS ------------------------
+
+        // Exibe mensagem de erro e estiliza campo com borda vermelha
+        function mostrarErro(id, mensagem) {
+            const campo = document.getElementById(id);
+            const erro = document.getElementById('erro-' + id);
+            if (campo) campo.classList.add('border-red-500');
+            if (erro) {
+                erro.textContent = mensagem;
+                erro.classList.remove('hidden');
+            }
         }
-    }
 
-    // ------------------------ VALIDAÇÃO DO FORMULÁRIO ------------------------
+        // Limpa todos os erros da tela e campos
+        function limparErros() {
+            document.querySelectorAll('input, select').forEach(el => el.classList.remove('border-red-500'));
+            document.querySelectorAll('p[id^="erro-"]').forEach(p => {
+                p.textContent = '';
+                p.classList.add('hidden');
+            });
+        }
 
-    // Valida todos os campos da Etapa 1 e prossegue se estiver tudo certo
-    function validarEtapa1() {
-        limparErros();
-        let valido = true;
+        // Limpa erro específico de um campo
+        function limparErro(id) {
+            const campo = document.getElementById(id);
+            const erro = document.getElementById('erro-' + id);
+            if (campo) campo.classList.remove('border-red-500');
+            if (erro) {
+                erro.textContent = '';
+                erro.classList.add('hidden');
+            }
+        }
 
-        const campos = [
-            { id: 'cpf', regra: v => v.trim() && validarCPF(v), msg: 'CPF inválido.' },
-            { id: 'nome', regra: v => v.trim() && validarNomeCompleto(v), msg: 'Digite seu nome completo.' },
-            {
-                id: 'data_nascimento',
-                regra: v => {
-                    if (!v.trim()) return false;
-                    const dataLimite = new Date('2010-12-31');
-                    const dataInformada = new Date(v);
-                    if (dataInformada > dataLimite) {
-                        mostrarErro('data_nascimento', 'A data deve ser igual ou anterior a 31/12/2010.');
-                        return false;
-                    }
-                    return true;
+        // ------------------------ VALIDAÇÃO DO FORMULÁRIO ------------------------
+
+        // Valida todos os campos da Etapa 1 e prossegue se estiver tudo certo
+        function validarEtapa1() {
+            limparErros();
+            let valido = true;
+
+            const campos = [{
+                    id: 'cpf',
+                    regra: v => v.trim() && validarCPF(v),
+                    msg: 'CPF inválido.'
                 },
-                msg: 'Informe sua data de nascimento corretamente.'
-            },
-            { id: 'genero', regra: v => v.trim(), msg: 'Selecione seu gênero.' },
-            { id: 'cep', regra: v => validarCEP(v), msg: 'CEP inválido.' },
-            { id: 'cidade', regra: v => v.trim(), msg: 'Informe a cidade.' },
-            { id: 'rua', regra: v => v.trim(), msg: 'Informe a rua.' },
-            { id: 'numero', regra: v => v.trim(), msg: 'Informe o número.' },
-            { id: 'bairro', regra: v => v.trim(), msg: 'Informe o bairro.' },
-            { id: 'uf', regra: v => v.trim(), msg: 'Selecione o estado.' },
-            { id: 'email', regra: v => validarEmail(v), msg: 'E-mail inválido.' },
-            { id: 'telefone', regra: v => validarTelefone(v), msg: 'Telefone inválido.' }
-        ];
+                {
+                    id: 'nome',
+                    regra: v => v.trim() && validarNomeCompleto(v),
+                    msg: 'Digite seu nome completo.'
+                },
+                {
+                    id: 'data_nascimento',
+                    regra: v => {
+                        if (!v.trim()) return false;
+                        const dataLimite = new Date('2010-12-31');
+                        const dataInformada = new Date(v);
+                        if (dataInformada > dataLimite) {
+                            mostrarErro('data_nascimento', 'A data deve ser igual ou anterior a 31/12/2010.');
+                            return false;
+                        }
+                        return true;
+                    },
+                    msg: 'Informe sua data de nascimento corretamente.'
+                },
+                {
+                    id: 'genero',
+                    regra: v => v.trim(),
+                    msg: 'Selecione seu gênero.'
+                },
+                {
+                    id: 'cep',
+                    regra: v => validarCEP(v),
+                    msg: 'CEP inválido.'
+                },
+                {
+                    id: 'cidade',
+                    regra: v => v.trim(),
+                    msg: 'Informe a cidade.'
+                },
+                {
+                    id: 'rua',
+                    regra: v => v.trim(),
+                    msg: 'Informe a rua.'
+                },
+                {
+                    id: 'numero',
+                    regra: v => v.trim(),
+                    msg: 'Informe o número.'
+                },
+                {
+                    id: 'bairro',
+                    regra: v => v.trim(),
+                    msg: 'Informe o bairro.'
+                },
+                {
+                    id: 'uf',
+                    regra: v => v.trim(),
+                    msg: 'Selecione o estado.'
+                },
+                {
+                    id: 'email',
+                    regra: v => validarEmail(v),
+                    msg: 'E-mail inválido.'
+                },
+                {
+                    id: 'telefone',
+                    regra: v => validarTelefone(v),
+                    msg: 'Telefone inválido.'
+                }
+            ];
 
-        campos.forEach(campo => {
-            const valor = document.getElementById(campo.id)?.value || '';
-            if (!campo.regra(valor)) {
-                mostrarErro(campo.id, campo.msg);
+            campos.forEach(campo => {
+                const valor = document.getElementById(campo.id)?.value || '';
+                if (!campo.regra(valor)) {
+                    mostrarErro(campo.id, campo.msg);
+                    valido = false;
+                }
+            });
+
+            const termos = document.getElementById('termos');
+            if (termos && !termos.checked) {
+                mostrarErro('termos', 'Você deve aceitar os termos de uso para continuar.');
                 valido = false;
+            }
+
+            if (valido) {
+                mostrarEtapa2();
+            }
+        }
+
+        // ------------------------ BUSCA DE ENDEREÇO POR CEP ------------------------
+
+        // Busca o endereço usando a API ViaCEP ao sair do campo de CEP
+        document.getElementById('cep').addEventListener('blur', function() {
+            const cep = this.value.replace(/\D/g, '');
+            if (!validarCEP(cep)) {
+                mostrarErro('cep', 'CEP inválido.');
+                return;
+            }
+
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.erro) {
+                        document.getElementById('rua').value = data.logradouro || '';
+                        document.getElementById('bairro').value = data.bairro || '';
+                        document.getElementById('cidade').value = data.localidade || '';
+                        document.getElementById('uf').value = data.uf || '';
+                    } else {
+                        mostrarErro('cep', 'CEP não encontrado.');
+                    }
+                })
+                .catch(() => mostrarErro('cep', 'Erro ao buscar CEP.'));
+        });
+
+        // Limpa os campos de endereço se o CEP for apagado
+        document.getElementById('cep').addEventListener('input', function() {
+            const cep = this.value.replace(/\D/g, '');
+            if (cep.length < 8) {
+                document.getElementById('rua').value = '';
+                document.getElementById('bairro').value = '';
+                document.getElementById('cidade').value = '';
+                document.getElementById('uf').value = '';
             }
         });
 
-        const termos = document.getElementById('termos');
-        if (termos && !termos.checked) {
-            mostrarErro('termos', 'Você deve aceitar os termos de uso para continuar.');
-            valido = false;
+        // ------------------------ CONTROLE DE ETAPAS DO FORMULÁRIO ------------------------
+
+        function mostrarEtapa2() {
+            document.getElementById('etapa1').classList.add('hidden');
+            document.getElementById('etapa2').classList.remove('hidden');
         }
 
-        if (valido) {
-            mostrarEtapa2();
-        }
-    }
-
-    // ------------------------ BUSCA DE ENDEREÇO POR CEP ------------------------
-
-    // Busca o endereço usando a API ViaCEP ao sair do campo de CEP
-    document.getElementById('cep').addEventListener('blur', function () {
-        const cep = this.value.replace(/\D/g, '');
-        if (!validarCEP(cep)) {
-            mostrarErro('cep', 'CEP inválido.');
-            return;
+        function mostrarEtapa1() {
+            document.getElementById('etapa2').classList.add('hidden');
+            document.getElementById('etapa1').classList.remove('hidden');
         }
 
-        fetch(`https://viacep.com.br/ws/${cep}/json/`)
-            .then(response => response.json())
-            .then(data => {
-                if (!data.erro) {
-                    document.getElementById('rua').value = data.logradouro || '';
-                    document.getElementById('bairro').value = data.bairro || '';
-                    document.getElementById('cidade').value = data.localidade || '';
-                    document.getElementById('uf').value = data.uf || '';
-                } else {
-                    mostrarErro('cep', 'CEP não encontrado.');
-                }
-            })
-            .catch(() => mostrarErro('cep', 'Erro ao buscar CEP.'));
-    });
+        // ------------------------ CAMPOS EXTRAS POR PERFIL ------------------------
 
-    // Limpa os campos de endereço se o CEP for apagado
-    document.getElementById('cep').addEventListener('input', function () {
-        const cep = this.value.replace(/\D/g, '');
-        if (cep.length < 8) {
-            document.getElementById('rua').value = '';
-            document.getElementById('bairro').value = '';
-            document.getElementById('cidade').value = '';
-            document.getElementById('uf').value = '';
+        // Mostra os campos de acordo com o perfil selecionado (Tentante, Gestante, Mamãe, Outros)
+        function mostrarOpcaoPerfil() {
+            const perfil = document.getElementById('perfil').value;
+
+            document.getElementById('opcaoOutros').classList.add('hidden');
+            document.getElementById('opcaoTentante').classList.add('hidden');
+            document.getElementById('opcaoGestante').classList.add('hidden');
+            document.getElementById('opcaoMamae').classList.add('hidden');
+            document.getElementById('detalhesGestante').classList.add('hidden');
+            document.getElementById('detalhesMamae').classList.add('hidden');
+
+            if (perfil === 'Tentante') {
+                document.getElementById('opcaoTentante').classList.remove('hidden');
+            } else if (perfil === 'Gestante') {
+                document.getElementById('opcaoGestante').classList.remove('hidden');
+            } else if (perfil === 'Mamãe') {
+                document.getElementById('opcaoMamae').classList.remove('hidden');
+            } else if (perfil === 'Outros') {
+                document.getElementById('opcaoOutros').classList.remove('hidden');
+            }
         }
-    });
 
-    // ------------------------ CONTROLE DE ETAPAS DO FORMULÁRIO ------------------------
-
-    function mostrarEtapa2() {
-        document.getElementById('etapa1').classList.add('hidden');
-        document.getElementById('etapa2').classList.remove('hidden');
-    }
-
-    function mostrarEtapa1() {
-        document.getElementById('etapa2').classList.add('hidden');
-        document.getElementById('etapa1').classList.remove('hidden');
-    }
-
-    // ------------------------ CAMPOS EXTRAS POR PERFIL ------------------------
-
-    // Mostra os campos de acordo com o perfil selecionado (Tentante, Gestante, Mamãe, Outros)
-    function mostrarOpcaoPerfil() {
-        const perfil = document.getElementById('perfil').value;
-
-        document.getElementById('opcaoOutros').classList.add('hidden');
-        document.getElementById('opcaoTentante').classList.add('hidden');
-        document.getElementById('opcaoGestante').classList.add('hidden');
-        document.getElementById('opcaoMamae').classList.add('hidden');
-        document.getElementById('detalhesGestante').classList.add('hidden');
-        document.getElementById('detalhesMamae').classList.add('hidden');
-
-        if (perfil === 'Tentante') {
-            document.getElementById('opcaoTentante').classList.remove('hidden');
-        } else if (perfil === 'Gestante') {
-            document.getElementById('opcaoGestante').classList.remove('hidden');
-        } else if (perfil === 'Mamãe') {
-            document.getElementById('opcaoMamae').classList.remove('hidden');
-        } else if (perfil === 'Outros') {
-            document.getElementById('opcaoOutros').classList.remove('hidden');
+        // Mostra campos adicionais caso a gestante selecione uma opção válida
+        function mostrarCamposGestante() {
+            const detalhe = document.getElementById('detalhe_gestante').value;
+            const detalhes = document.getElementById('detalhesGestante');
+            detalhes.classList.toggle('hidden', !detalhe);
         }
-    }
 
-    // Mostra campos adicionais caso a gestante selecione uma opção válida
-    function mostrarCamposGestante() {
-        const detalhe = document.getElementById('detalhe_gestante').value;
-        const detalhes = document.getElementById('detalhesGestante');
-        detalhes.classList.toggle('hidden', !detalhe);
-    }
-
-    // Mostra campos adicionais caso a mamãe selecione uma opção válida
-    function mostrarCamposMamae() {
-        const detalhe = document.getElementById('detalhe_mamae').value;
-        const detalhes = document.getElementById('detalhesMamae');
-        detalhes.classList.toggle('hidden', !detalhe);
-    }
-
-    // ------------------------ SCROLL SUAVE ------------------------
-
-    function rolarParaFormulario() {
-        document.getElementById('secao2').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function rolarParaFormulario2() {
-        document.getElementById('formulario').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // ------------------------ VALIDAÇÕES INSTANTÂNEAS ------------------------
-
-    const inputEmail = document.getElementById('email');
-    inputEmail.addEventListener('input', () => {
-        const email = inputEmail.value.trim();
-        if (!validarEmail(email)) {
-            mostrarErro('email', 'E-mail inválido.');
-        } else {
-            limparErro('email');
+        // Mostra campos adicionais caso a mamãe selecione uma opção válida
+        function mostrarCamposMamae() {
+            const detalhe = document.getElementById('detalhe_mamae').value;
+            const detalhes = document.getElementById('detalhesMamae');
+            detalhes.classList.toggle('hidden', !detalhe);
         }
-    });
 
-    const inputTelefone = document.getElementById('telefone');
-    inputTelefone.addEventListener('input', () => {
-        const telefone = inputTelefone.value.trim();
-        if (!validarTelefone(telefone)) {
-            mostrarErro('telefone', 'Telefone inválido.');
-        } else {
-            limparErro('telefone');
+        // ------------------------ SCROLL SUAVE ------------------------
+
+        function rolarParaFormulario() {
+            document.getElementById('secao2').scrollIntoView({
+                behavior: 'smooth'
+            });
         }
-    });
-</script>
+
+        function rolarParaFormulario2() {
+            document.getElementById('formulario').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // ------------------------ VALIDAÇÕES INSTANTÂNEAS ------------------------
+
+        const inputEmail = document.getElementById('email');
+        inputEmail.addEventListener('input', () => {
+            const email = inputEmail.value.trim();
+            if (!validarEmail(email)) {
+                mostrarErro('email', 'E-mail inválido.');
+            } else {
+                limparErro('email');
+            }
+        });
+
+        const inputTelefone = document.getElementById('telefone');
+        inputTelefone.addEventListener('input', () => {
+            const telefone = inputTelefone.value.trim();
+            if (!validarTelefone(telefone)) {
+                mostrarErro('telefone', 'Telefone inválido.');
+            } else {
+                limparErro('telefone');
+            }
+        });
+    </script>
 </body>
 
 </html>
