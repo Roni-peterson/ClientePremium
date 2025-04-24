@@ -103,7 +103,7 @@ class ClienteController extends Controller
             session()->flash('success', 'Cliente cadastrado com sucesso!');
         }
 
-        return redirect('/');
+        return redirect()->route('campanha.index');
     }
 
     public function painel()
@@ -123,7 +123,8 @@ class ClienteController extends Controller
             ->pluck('total', 'perfil');
 
         // Recuperando todos os clientes com dados da campanha
-        $clientes = Cliente::with('dadocampanha')
+        $clientes = Cliente::whereHas('dadocampanha')
+            ->with('dadocampanha')
             ->orderBy('id', 'asc')
             ->paginate(10);
 

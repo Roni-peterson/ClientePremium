@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable; // <- ESSA LINHA
+use Illuminate\Notifications\Notifiable;
 
-class Cliente extends Model
+class Cliente extends Authenticatable // <- AQUI TAMBÉM
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     public function endereco()
     {

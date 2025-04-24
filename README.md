@@ -1,4 +1,4 @@
-<p align="center"><img src="caminho-para-o-logo.png" width="400" alt="Logo do Projeto"></p>
+<p align="center"><img src="./public/images/logo_form_mobile.png" width="400" alt="Logo do Projeto"></p>
 
 <p align="center">
   <a href="https://www.github.com/usuario/projeto"><img src="https://img.shields.io/github/repo-size/usuario/projeto" alt="Tamanho do Repositório"></a>
