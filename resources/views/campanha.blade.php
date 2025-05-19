@@ -31,6 +31,7 @@
         .font-childos {
             font-family: 'Childos Arabic', sans-serif;
         }
+
         .font-bobby-alt {
             font-family: 'Poppins', sans-serif;
         }
@@ -66,10 +67,10 @@
             background-image: url('{{ asset('images/img_secao1_mobile.png') }}');
         }
 
-        /* Quando for desktop: imagem DESKTOP */
+        /* Versão desktop */
         @media (min-width: 768px) {
             section.bg-secao1 {
-                background-image: url('{{ asset('images/img_secao1.jpg') }}');
+                background-image: url('{{ asset('images/img_MKT_secao1.jpg') }}');
             }
         }
     </style>
@@ -83,8 +84,7 @@
             <div class="mb-8 w-full flex justify-center items-center">
                 <picture>
                     <source srcset="{{ asset('images/logo_secao1_mobile_xxl.png') }}" media="(max-width: 767px)">
-                    <img src="{{ asset('images/logo_secao1.png') }}" alt="Logo da campanha"
-                        class="w-full max-w-[600px] sm:max-w-[700px] md:max-w-[800px] lg:max-w-[900px] xl:max-w-[1080px] 2xl:max-w-[1280px]">
+
                 </picture>
             </div>
 
@@ -96,83 +96,34 @@
         </section>
         <!-- Seção 2 -->
         <section
-    id="secao2"
-    class="min-h-screen bg-cover bg-center flex flex-col text-center text-white"
-    style="background-image: url('{{ asset('images/img_secao2.png') }}');">
+            id="secao2"
+            class="min-h-screen bg-cover bg-center flex flex-col text-center text-white"
+            style="background-image: url('{{ asset('images/img_MKT_secao2.png') }}');">
 
-    <!-- Parte de cima (80% no desktop, altura automática no mobile) -->
-    <div class="flex-grow md:h-[80%] flex items-center justify-center px-4 md:py-0">
-        <div class="w-full max-w-4xl md:max-w-5xl">
-            <!-- Título principal -->
-            <h3 class="text-lg md:text-4xl font-bold mb-4 font-bobby text-center">
-                Saiba como participar da Mamãe Premiada!
-            </h3>
+            <!-- Parte de cima (80% no desktop, altura automática no mobile) -->
+            <div class="flex-grow md:h-[80%] flex items-center justify-center px-4 md:py-0">
+                
+            </div>
 
-            <!-- Conteúdos -->
-            <h4 class="text-sm md:text-xl font-semibold mb-1 font-bobby-alt text-left mt-4 md:mt-8">
-                Quem pode participar?
-            </h4>
-            <p class="text-xs md:text-base text-left font-childos mb-2">
-                A <strong>Mamãe Premiada</strong> é uma campanha pensada com carinho para mulheres que são mães ou sonham em ser. Mas atenção: <strong>qualquer pessoa pode participar</strong>, desde que siga as regras!
-            </p>
-
-            <h4 class="text-sm md:text-xl font-semibold mb-1 font-bobby-alt text-left mt-4 md:mt-8">
-                Prêmios e condições
-            </h4>
-            <p class="text-xs md:text-base text-left font-childos mb-2">
-                Todos os meses, sortearemos <strong>R$ 1.000,00 em prêmios</strong> para os participantes que:
-            </p>
-            <ul class="list-disc text-xs md:text-base font-childos mb-2 pl-5 text-left">
-                <li>Realizarem uma compra a partir de R$ 70,00 em produtos da <strong>categoria Mamãe e Bebê</strong>.</li>
-                <li>Completarem o <strong>cadastro corretamente</strong> no site da campanha.</li>
-            </ul>
-
-            <h4 class="text-sm md:text-xl font-semibold mb-1 font-bobby-alt text-left mt-4 md:mt-8">
-                Como garantir seu número da sorte
-            </h4>
-            <p class="text-xs md:text-base text-left font-childos mb-2">
-                🎟️ Cada compra válida garante <strong>1 número da sorte</strong>. Quanto mais compras elegíveis, mais chances de ganhar!
-            </p>
-
-            <h4 class="text-sm md:text-xl font-semibold mb-1 font-bobby-alt text-left mt-4 md:mt-8">
-                Como continuar participando todo mês
-            </h4>
-            <p class="text-xs md:text-base text-left font-childos mb-2">
-                🔁 Para continuar concorrendo nos sorteios mensais, é necessário:
-            </p>
-            <ul class="list-disc text-xs md:text-base font-childos mb-2 pl-5 text-left">
-                <li>Fazer ao menos <strong>uma compra no valor mínimo</strong> e dentro da categoria indicada <strong>a cada mês</strong>.</li>
-                <li>Estar com o <strong>cadastro completo e atualizado</strong>.</li>
-            </ul>
-
-            <h4 class="text-sm md:text-xl font-semibold mb-1 font-bobby-alt text-left mt-4 md:mt-8">
-                Importante!
-            </h4>
-            <p class="text-xs md:text-base text-left font-childos">
-                ❌ Compras fora do valor ou que não se enquadram nas regras da campanha, assim como cadastros incompletos, <strong>não geram número da sorte</strong> para o mês.
-            </p>
-        </div>
-    </div>
-
-    <!-- Parte de baixo (20% no desktop, auto no mobile) -->
-<div class="md:h-[20%] h-auto flex items-center justify-center relative pb-10 md:pb-0">
-    <button 
-        onclick="rolarParaFormulario2()"
-        class="font-bobby whitespace-nowrap bg-pink-500 text-white px-6 py-3 rounded-xl text-sm hover:bg-pink-600 transition
+            <!-- Parte de baixo (20% no desktop, auto no mobile) -->
+            <div class="md:h-[20%] h-auto flex items-center justify-center relative pb-10 md:pb-0">
+                <button
+                    onclick="rolarParaFormulario2()"
+                    class="font-bobby whitespace-nowrap bg-pink-500 text-white px-6 py-3 rounded-xl text-sm hover:bg-pink-600 transition
                md:absolute mb-[env(safe-area-inset-bottom)] bottom-6 md:bottom-16 md:left-1/2 md:-translate-x-1/2">
-        QUERO PARTICIPAR
-    </button>
-</div>
-</section>
+                    QUERO PARTICIPAR
+                </button>
+            </div>
+        </section>
         <!-- Seção do formulário -->
         <section
             id="formulario"
             class="min-h-screen flex items-center justify-center bg-white p-2 md:p-6 pt-2 md:pt-6 bg-cover bg-center"
-            style="background-image: url('{{ asset('images/logo_secao3.png') }}');">
+            style="background-image: url('{{ asset('images/PAGINA 03.png') }}');">
             <!-- Metade esquerda da tela -->
             <div class="hidden lg:flex w-full lg:w-1/2 items-center justify-center bg-white/0">
                 <div class="flex items-center justify-center h-full">
-                    <img src="{{ asset('images/logo_secao1.png') }}" alt="Logo" class="w-full max-w-[80rem] h-auto">
+                    <!-- <img src="{{ asset('images/logo_secao1.png') }}" alt="Logo" class="w-full max-w-[80rem] h-auto"> -->
                 </div>
             </div>
 

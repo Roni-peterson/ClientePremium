@@ -94,6 +94,41 @@
                 </div>
             </div>
         </div>
+        <!-- Top 10 cidades com mais cadastros -->
+        <div class="py-4">
+            <div class="text-white w-full max-w-7xl px-6 mx-auto">
+                <div class="bg-[#1e3a8a] dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-gray-100">
+                        <h2 class="text-xl font-semibold mb-4">Top 10 Cidades com Mais Cadastros</h2>
+
+                        @if ($cidadesMaisPopulosas->isEmpty())
+                        <p class="text-white">Nenhuma cidade com cadastros ainda.</p>
+                        @else
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-[#1e40af]">
+                                    <tr>
+                                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-white uppercase tracking-wider">#</th>
+                                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-white uppercase tracking-wider">Cidade</th>
+                                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-white uppercase tracking-wider">Total de Cadastros</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-[#1e3a8a] divide-y divide-gray-700">
+                                    @foreach ($cidadesMaisPopulosas as $index => $cidade)
+                                    <tr>
+                                        <td class="px-4 py-2">{{ $index + 1 }}</td>
+                                        <td class="px-4 py-2">{{ $cidade->cidade }}</td>
+                                        <td class="px-4 py-2">{{ $cidade->total }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Tabela -->

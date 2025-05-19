@@ -19,7 +19,10 @@ class Cliente extends Authenticatable // <- AQUI TAMBÉM
     {
         return $this->hasOne(DadoCampanha::class);
     }
-
+    public function suplemento()
+    {
+        return $this->hasOne(SuplementoCliente::class);
+    }
     protected $fillable = [
         'cpf',
         'nome',

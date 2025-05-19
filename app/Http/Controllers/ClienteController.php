@@ -128,12 +128,21 @@ class ClienteController extends Controller
             ->orderBy('id', 'asc')
             ->paginate(10);
 
+        // 10 cidades com mais cadastros
+        $cidadesMaisPopulosas = DB::table('endereco')
+            ->select('cidade', DB::raw('count(*) as total'))
+            ->groupBy('cidade')
+            ->orderByDesc('total')
+            ->limit(10)
+            ->get();
+
         return view('painel', compact(
             'clientes',
             'novosRegistros',
             'registrosAtualizados',
             'totalRegistros',
-            'registrosPorPerfil'
+            'registrosPorPerfil',
+            'cidadesMaisPopulosas'
         ));
     }
 
