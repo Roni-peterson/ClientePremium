@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('dadocampanha', function (Blueprint $table) {
-            $table->string('detalhe_outros', 50)->nullable()->after('faixa_etaria_bebe');
+        Schema::table('dados_campanha', function (Blueprint $table) {
+            $table->string('detalhe_outros', 50)->nullable();
         });
     }
 

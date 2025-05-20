@@ -5,6 +5,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DLIController;
 use App\Http\Controllers\SuplementosController;
+use App\Http\Controllers\DermocosmeticosController;
 
 // =============================
 // 🔁 Redirecionamentos
@@ -48,3 +49,12 @@ Route::get('/suplementos', [SuplementosController::class, 'redirectByDevice'])->
 Route::get('/suplementos/desktop', [SuplementosController::class, 'indexDesktop'])->name('suplementos.desktop');
 Route::get('/suplementos/mobile', [SuplementosController::class, 'indexMobile'])->name('suplementos.mobile');
 Route::post('/suplementos', [SuplementosController::class, 'store'])->name('suplementos.store');
+
+// =============================
+// 💅 Campanha Dermocosméticos
+// =============================
+
+Route::get('/dermocosmeticos', [DermocosmeticosController::class, 'redirectByDevice'])->name('dermocosmeticos');
+Route::get('/dermocosmeticos/desktop', [DermocosmeticosController::class, 'indexDesktop'])->name('dermocosmeticos.desktop');
+Route::get('/dermocosmeticos/mobile', [DermocosmeticosController::class, 'indexMobile'])->name('dermocosmeticos.mobile');
+Route::post('/dermocosmeticos', [DermocosmeticosController::class, 'store'])->name('dermocosmeticos.store');
